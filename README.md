@@ -1,15 +1,11 @@
 # SE300 Password Manager
 Software Engineering class group project, creating a simple password manager program.
-
-Demo C++ implementation of operating system scheduling algorithms under different running scenarios.  
-Both scheduler algorithms have examples to showcase ideal and starved conditions.  
-
+Implemented group software project management principles and design
 
 ## Features
-- Encrypted passwords/logins
+- Encrypted password information
 - Authentication requirement to access passwords
 - User notes and customization
-- 
 
 ## Authors
 - [Sawyer Curless: @froglord926](https://github.com/froglord926)
