@@ -1,8 +1,13 @@
-# Import GUI modules
+import tkinter as tk
 import gui_main
 import gui_pass
 
 if __name__ == "__main__":
-    # Run the GUIs (for testing)
-    gui_main.run_gui() 
-    gui_pass.run_gui()
+    root = tk.Tk()
+    gui_main.create_gui(root)  # Create the main GUI
+    
+    # Create a new Toplevel window for the password viewer
+    password_viewer_window = tk.Toplevel(root)  
+    gui_pass.create_gui(password_viewer_window)  # Create the password viewer GUI
+
+    root.mainloop()  # Run the main event loop

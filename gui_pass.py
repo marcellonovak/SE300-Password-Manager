@@ -2,9 +2,12 @@ import tkinter as tk
 
 class PasswordViewerGUI:
     def __init__(self, master):
+
+        # Set master window conditions
         self.master = master
         master.title("Password Viewer")
         master.configure(bg="lightblue")
+        master.geometry("300x300")  # Set the initial size
 
 
         #######################
@@ -60,14 +63,7 @@ class PasswordViewerGUI:
         master.grid_rowconfigure(5, weight=1)  # Adjusted row
 
 
-# Function to create and run the GUI
-def run_gui():
-    root = tk.Tk()
-    password_viewer = PasswordViewerGUI(root)
-    root.geometry("300x300") # Set the initial window size
-    root.mainloop()
-
-
-# Runs only if this script is executed directly for testing
-if __name__ == "__main__":
-    run_gui()
+# Function to create the GUI
+def create_gui(master):  # Changed function name
+    password_manager = PasswordViewerGUI(master)
+    return password_manager  # Return the GUI instance
