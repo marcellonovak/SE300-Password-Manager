@@ -7,6 +7,7 @@ class PasswordViewerGUI:
         self.master = master
         master.title("Password Viewer")
         master.configure(bg="lightblue")
+        master.iconbitmap("./icon_shield.ico") # Set the icon
         master.geometry("300x300")  # Set the initial size
 
 

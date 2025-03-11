@@ -7,6 +7,7 @@ class PasswordManagerGUI:
         self.master = master
         master.title("Password Manager")
         master.configure(bg="lightblue")
+        master.iconbitmap("./icon_shield.ico") # Set the icon
         master.geometry("300x300")  # Set the initial size
         
 
