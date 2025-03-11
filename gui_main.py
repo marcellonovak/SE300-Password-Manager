@@ -37,3 +37,9 @@ class PasswordManagerGUI:
 def create_gui(master):  # Changed function name
     password_manager = PasswordManagerGUI(master)
     return password_manager  # Return the GUI instance
+
+# Only runs if this script is run directly, for testing
+if __name__ == "__main__":
+    root = tk.Tk()
+    create_gui(root)
+    root.mainloop()

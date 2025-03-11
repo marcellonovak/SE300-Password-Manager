@@ -49,6 +49,7 @@ def create_gui(master):
     settings_gui = SettingsGUI(master)
     return settings_gui
 
+# Only runs if this script is run directly, for testing
 if __name__ == "__main__":
     root = tk.Tk()
     create_gui(root)
