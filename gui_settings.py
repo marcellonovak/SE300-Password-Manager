@@ -8,7 +8,7 @@ class SettingsGUI:
         master.title("Manager Settings")
         master.configure(bg="lightblue")
         master.iconbitmap("./icon_shield.ico") # Set the icon 
-        master.geometry("250x100")  # Set the initial size
+        master.geometry("300x85")  # Set the initial size
 
 
         ###############
