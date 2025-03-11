@@ -21,16 +21,16 @@ class PasswordManagerGUI:
 
         # Add New button
         self.add_new_button = tk.Button(button_frame, text="Add New", bg="white")
-        self.add_new_button.pack(side=tk.LEFT, padx=(0, 5))
+        self.add_new_button.pack(side=tk.LEFT, padx=(2.5, 2.5))
 
         # Settings button
         self.settings_button = tk.Button(button_frame, text="Settings", bg="white")
-        self.settings_button.pack(side=tk.LEFT)
+        self.settings_button.pack(side=tk.LEFT, padx=(2.5, 2.5))
 
 
         # Empty box for password list
         self.password_list_label = tk.Label(master, text="", relief=tk.SUNKEN, width=50, height=20, bg="white")
-        self.password_list_label.pack(fill=tk.BOTH, expand=True, padx=5, pady=0)
+        self.password_list_label.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
 
 # Function to create the GUI

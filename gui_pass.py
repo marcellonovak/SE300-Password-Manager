@@ -51,11 +51,11 @@ class PasswordViewerGUI:
 
         # Save Button
         self.save_button = tk.Button(button_frame, text="Save", bg="white")
-        self.save_button.pack(side=tk.LEFT, padx=(0, 2.5))
+        self.save_button.pack(side=tk.LEFT, padx=(2.5, 2.5))
 
         # Delete Button
         self.delete_button = tk.Button(button_frame, text="Delete", bg="white")
-        self.delete_button.pack(side=tk.LEFT)
+        self.delete_button.pack(side=tk.LEFT, padx=(2.5, 2.5))
 
 
         # Configure grid rows and columns to expand
