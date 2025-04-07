@@ -3,3 +3,6 @@ __pycache__/
 
 # Ignore virtualenv
 venv/
+
+# Ignore password file
+passwords
