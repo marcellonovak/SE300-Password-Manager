@@ -60,6 +60,14 @@ class PasswordViewerGUI:
             # TODO JN
             print("Save!")
 
+            fields = []
+            fields.append(self.username_entry.get())
+            fields.append(self.site_entry.get())
+            fields.append(self.password_entry.get())
+            fields.append(self.custom_name_entry.get())
+            fields.append(self.notes_text.get("1.0", "end"))
+            print(fields)
+
         def DeleteClicked():
             # TODO JN
             print("Deleted!")
