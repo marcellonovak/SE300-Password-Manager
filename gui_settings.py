@@ -1,5 +1,6 @@
 import tkinter as tk
 
+
 class SettingsGUI:
     def __init__(self, master):
 
@@ -7,9 +8,20 @@ class SettingsGUI:
         self.master = master
         master.title("Manager Settings")
         master.configure(bg="lightblue")
-        master.iconbitmap("./icon_shield.ico") # Set the icon 
+        master.iconbitmap("./icon_shield.ico")  # Set the icon
         master.geometry("300x85")  # Set the initial size
 
+        ########################
+        ### BUTTON FUNCTIONS ###
+        ########################
+
+        def ChangePINClicked():
+            # TODO JN
+            print("Change PIN!")
+
+        def DeleteAllClicked():
+            # TODO JN
+            print("Delete All")
 
         ###############
         ### BUTTONS ###
@@ -20,13 +32,16 @@ class SettingsGUI:
         button_frame.grid(row=1, column=0, columnspan=2, sticky="w", padx=5, pady=5)
 
         # Change PIN Button
-        change_pin_button = tk.Button(button_frame, text="Change PIN", bg="white")
+        change_pin_button = tk.Button(
+            button_frame, text="Change PIN", bg="white", command=ChangePINClicked
+        )
         change_pin_button.pack(side=tk.LEFT, padx=(2.5, 2.5))
 
         # Delete All Button
-        delete_all_button = tk.Button(button_frame, text="Delete All", bg="white")
+        delete_all_button = tk.Button(
+            button_frame, text="Delete All", bg="white", command=DeleteAllClicked
+        )
         delete_all_button.pack(side=tk.LEFT, padx=(2.5, 2.5))
-
 
         ####################
         ### STORAGE PATH ###
@@ -38,16 +53,19 @@ class SettingsGUI:
 
         # Password Storage Path Entry
         path_entry = tk.Entry(master, bg="white")
-        path_entry.grid(row=3, column=0, columnspan=2, sticky="ew", padx=5, pady=(0, 2.5))  # Reduced pady
-
+        path_entry.grid(
+            row=3, column=0, columnspan=2, sticky="ew", padx=5, pady=(0, 2.5)
+        )  # Reduced pady
 
         # Configure grid columns to expand
         master.grid_columnconfigure(0, weight=1)
         master.grid_columnconfigure(1, weight=1)
 
+
 def create_gui(master):
     settings_gui = SettingsGUI(master)
     return settings_gui
+
 
 # Only runs if this script is run directly, for testing
 if __name__ == "__main__":
