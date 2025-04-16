@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import gui_pass, gui_settings
 
 class PasswordManagerGUI:
     def __init__(self, master):
@@ -16,12 +16,14 @@ class PasswordManagerGUI:
         ########################
 
         def AddNewClicked():
-            # TODO JN
-            print("Add New!")
+            # Create and open password viewer window
+            password_viewer_window = tk.Toplevel(self.master)
+            gui_pass.create_gui(password_viewer_window)
 
         def SettingsClicked():
-            # TODO JN
-            print("Settings!")
+            # Create and open settings window
+            settings_window = tk.Toplevel(self.master)
+            gui_settings.create_gui(settings_window)
 
         ###############
         ### BUTTONS ###
@@ -51,7 +53,7 @@ class PasswordManagerGUI:
 
 
 # Function to create the GUI
-def create_gui(master):  # Changed function name
+def create_gui(master):
     password_manager = PasswordManagerGUI(master)
     return password_manager  # Return the GUI instance
 
