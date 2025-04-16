@@ -69,8 +69,7 @@ class PasswordViewerGUI:
             print(fields)
 
         def DeleteClicked():
-            # TODO JN
-            print("Deleted!")
+            self.master.destroy()
 
         ###############
         ### BUTTONS ###
