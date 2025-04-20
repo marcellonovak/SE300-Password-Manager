@@ -12,6 +12,8 @@ def gen_file(password):
     file.write('\n')
     file.write(Fernet(key).encrypt("".encode('utf-8')).decode('utf-8'))
     file.write('\n')
+    file.write(Fernet(key).encrypt("dummy entry".encode('utf-8')).decode('utf-8'))
+    file.write('\n')
     file.close()
 
 def read_services(password):
@@ -22,9 +24,10 @@ def read_services(password):
         key = base64.b64encode(hashlib.sha256(password.encode('utf-8')).digest())
         #serv_count = int(Fernet(key).decrypt(pwfile[1][:-1].encode('utf-8')).decode('utf-8'))
         servs = Fernet(key).decrypt(pwfile[2][:-1].encode('utf-8')).decode('utf-8').split(",")
-        return servs[1:]
+        info = Fernet(key).decrypt(pwfile[3][:-1].encode('utf-8')).decode('utf-8').split("\t\n\t")
+        return (servs[1:],info[1:])
 
-def add_service(password,service,serv_name,serv_pass):
+def add_service(password,service,serv_name,serv_pass,info='\n'):
     file = open("passwords","r")
     pwfile = file.readlines()
     file.close()
@@ -32,19 +35,49 @@ def add_service(password,service,serv_name,serv_pass):
         key = base64.b64encode(hashlib.sha256(password.encode('utf-8')).digest())
         serv_count = int(Fernet(key).decrypt(pwfile[1][:-1].encode('utf-8')).decode('utf-8'))
         servs = Fernet(key).decrypt(pwfile[2][:-1].encode('utf-8')).decode('utf-8').split(",")
+        infos = Fernet(key).decrypt(pwfile[3][:-1].encode('utf-8')).decode('utf-8').split("\t\n\t")
         servs.append(service)
+        infos.append(info)
         pwfile.append(f"{base64.b64encode(hashlib.sha512(service.encode('utf-8')).digest()).decode("utf-8")}\n")
         pwfile.append(f"{Fernet(key).encrypt(serv_name.encode('utf-8')).decode('utf-8')}\n")
         pwfile.append(f"{Fernet(key).encrypt(serv_pass.encode('utf-8')).decode('utf-8')}\n")
         servs_txt = ",".join(servs)
+        info_txt = "\t\n\t".join(infos)
         pwfile[1] = f"{Fernet(key).encrypt(str(len(servs)).encode('utf-8')).decode('utf-8')}\n"
         pwfile[2] = f"{Fernet(key).encrypt(servs_txt.encode('utf-8')).decode('utf-8')}\n"
+        pwfile[3] = f"{Fernet(key).encrypt(info_txt.encode('utf-8')).decode('utf-8')}\n"
         file = open("passwords","w")
         for line in pwfile:
             file.write(line)
         file.close()
-            
-def read_data(password,service):
+
+def remove_service(password,id):
+    file = open("passwords","r")
+    pwfile = file.readlines()
+    file.close()
+    if base64.b64encode(hashlib.sha512(password.encode('utf-8')).digest()).decode("utf-8") == pwfile[0][:-1]:
+        key = base64.b64encode(hashlib.sha256(password.encode('utf-8')).digest())
+        serv_count = int(Fernet(key).decrypt(pwfile[1][:-1].encode('utf-8')).decode('utf-8'))
+        servs = Fernet(key).decrypt(pwfile[2][:-1].encode('utf-8')).decode('utf-8').split(",")
+        infos = Fernet(key).decrypt(pwfile[3][:-1].encode('utf-8')).decode('utf-8').split("\t\n\t")
+        del servs[id]
+        del infos [id]
+        for i in range(0,3):
+            del pwfile [4 + id * 3 + i]
+
+        servs_txt = ",".join(servs)
+        info_txt = "\t\n\t".join(infos)
+        pwfile[1] = f"{Fernet(key).encrypt(str(len(servs)).encode('utf-8')).decode('utf-8')}\n"
+        pwfile[2] = f"{Fernet(key).encrypt(servs_txt.encode('utf-8')).decode('utf-8')}\n"
+        pwfile[3] = f"{Fernet(key).encrypt(info_txt.encode('utf-8')).decode('utf-8')}\n"
+        file = open("passwords","w")
+        for line in pwfile:
+            file.write(line)
+        file.close()
+
+
+
+def read_data_by_service(password,service):
     file = open("passwords","r")
     pwfile = file.readlines()
     file.close()
@@ -56,8 +89,20 @@ def read_data(password,service):
         for i in range(1,len(servs)):
             if servs[i] == service:
                 dat_ent = [service,
-                Fernet(key).decrypt(pwfile[i * 3 + 1][:-1].encode('utf-8')).decode('utf-8'),
-                Fernet(key).decrypt(pwfile[i * 3 + 2][:-1].encode('utf-8')).decode('utf-8')]
+                Fernet(key).decrypt(pwfile[1 + i * 3 + 1][:-1].encode('utf-8')).decode('utf-8'),
+                Fernet(key).decrypt(pwfile[1 + i * 3 + 2][:-1].encode('utf-8')).decode('utf-8')]
                 data.append(dat_ent)
         return data
 
+def read_data_by_ID(password,id):
+    file = open("passwords","r")
+    pwfile = file.readlines()
+    file.close()
+    if base64.b64encode(hashlib.sha512(password.encode('utf-8')).digest()).decode("utf-8") == pwfile[0][:-1]:
+        key = base64.b64encode(hashlib.sha256(password.encode('utf-8')).digest())
+        #serv_count = int(Fernet(key).decrypt(pwfile[1][:-1].encode('utf-8')).decode('utf-8'))
+        servs = Fernet(key).decrypt(pwfile[2][:-1].encode('utf-8')).decode('utf-8').split(",")
+        dat_ent = [servs[id],
+        Fernet(key).decrypt(pwfile[4 + id * 3 + 1][:-1].encode('utf-8')).decode('utf-8'),
+        Fernet(key).decrypt(pwfile[4 + id * 3 + 2][:-1].encode('utf-8')).decode('utf-8')]
+        return dat_ent
