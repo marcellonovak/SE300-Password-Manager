@@ -4,6 +4,15 @@ import base64
 
 
 def gen_file(password):
+    '''
+    Generates a file to store the passwords in.
+
+    Params:
+        password: the master password (or PIN) used for authentication and encryption.
+
+    Returns:
+        Void
+    '''
     file = open("passwords","w")
     file.write(base64.b64encode(hashlib.sha512(password.encode('utf-8')).digest()).decode("utf-8"))
     file.write('\n')
@@ -17,6 +26,16 @@ def gen_file(password):
     file.close()
 
 def read_services(password):
+    '''
+    Reads all of the tites / services stored in the passwords file with their info descriptions, indexed by ID
+
+    Params:
+        password: the master password (or PIN) used for authentication and encryption.
+    
+    Returns:
+        (servs[1:],info[1:]): a tuple containing the service names and their info, indexed by ID, 
+            excluding dummy entries. 
+    '''
     file = open("passwords","r")
     pwfile = file.readlines()
     file.close()
@@ -28,6 +47,21 @@ def read_services(password):
         return (servs[1:],info[1:])
 
 def add_service(password,service,serv_name,serv_pass,info='\n'):
+    '''
+    Adds a service to the passwords file
+    Params:
+        password: the master password (or PIN) used for authentication and encryption.
+        service: name of the service, or custon title of entry
+        serv_name: the username to be used for login
+        serv_pass: the password used for login on this specific service
+        info: a short blurb to be viewd with the service name\
+            Optional, default: "\n"
+
+    Returns:
+        Void
+        
+
+    '''
     file = open("passwords","r")
     pwfile = file.readlines()
     file.close()
@@ -52,6 +86,17 @@ def add_service(password,service,serv_name,serv_pass,info='\n'):
         file.close()
 
 def remove_service(password,id):
+    '''
+    Removes a service from the passwords file
+
+    Params:
+        password: the master password (or PIN) used for authentication and encryption.
+        id: the sequential ID of the entry being removed. 
+
+    Returns:
+        Void
+
+    '''
     file = open("passwords","r")
     pwfile = file.readlines()
     file.close()
@@ -75,9 +120,19 @@ def remove_service(password,id):
             file.write(line)
         file.close()
 
-
-
 def read_data_by_service(password,service):
+    '''
+    Reads the encrypted data from the password file, given the service name
+
+    Params:
+        password: the master password (or PIN) used for authentication and encryption.
+        service: the name of the service whos data is being requested.
+
+    Returns:
+        data: a list containg all of the entries under the given service name, in list format:
+            [<service name (string)>, <username (string)>, <password (string)>]
+
+    '''
     file = open("passwords","r")
     pwfile = file.readlines()
     file.close()
@@ -95,6 +150,18 @@ def read_data_by_service(password,service):
         return data
 
 def read_data_by_ID(password,id):
+    '''
+    Reads the encrypted data from the password file, given the sequential ID 
+
+    Params:
+        password: the master password (or PIN) used for authentication and encryption.
+        id: the sequential ID of the entry being removed. 
+
+    Returns:
+        data_ent: a single entry of data from the entry specified by id, in the format of:
+            [<service name (string)>, <username (string)>, <password (string)>]
+
+    '''
     file = open("passwords","r")
     pwfile = file.readlines()
     file.close()
