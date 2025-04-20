@@ -105,10 +105,10 @@ def remove_service(password,id):
         serv_count = int(Fernet(key).decrypt(pwfile[1][:-1].encode('utf-8')).decode('utf-8'))
         servs = Fernet(key).decrypt(pwfile[2][:-1].encode('utf-8')).decode('utf-8').split(",")
         infos = Fernet(key).decrypt(pwfile[3][:-1].encode('utf-8')).decode('utf-8').split("\t\n\t")
-        del servs[id]
-        del infos [id]
+        del servs[id + 1]
+        del infos [id + 1]
         for i in range(0,3):
-            del pwfile [4 + id * 3 + i]
+            del pwfile [4 + id * 3]
 
         servs_txt = ",".join(servs)
         info_txt = "\t\n\t".join(infos)
