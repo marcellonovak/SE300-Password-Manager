@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox as mb
 
 
 class PasswordViewerGUI:
@@ -57,16 +58,25 @@ class PasswordViewerGUI:
         ########################
 
         def SaveClicked():
-            # TODO JN
-            print("Save!")
+            if (
+                self.username_entry.get() == ""
+                or self.site_entry.get() == ""
+                or self.password_entry.get() == ""
+            ):
+                mb.showwarning(
+                    "Incomplete Entry",
+                    "The username, site, and password fields must be filled to proceed. Please try again.",
+                )
 
-            fields = []
-            fields.append(self.username_entry.get())
-            fields.append(self.site_entry.get())
-            fields.append(self.password_entry.get())
-            fields.append(self.custom_name_entry.get())
-            fields.append(self.notes_text.get("1.0", "end"))
-            print(fields)
+            else:
+                fields = []
+                fields.append(self.username_entry.get())
+                fields.append(self.site_entry.get())
+                fields.append(self.password_entry.get())
+                fields.append(self.custom_name_entry.get())
+                fields.append(self.notes_text.get("1.0", "end"))
+                print(fields)
+                self.master.destroy()
 
         def DeleteClicked():
             self.master.destroy()
