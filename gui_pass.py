@@ -10,7 +10,7 @@ class PasswordViewerGUI:
         self.entry_id = entry_id
         self.refresh_callback = refresh_callback
         self.is_editing = entry_id is not None
-        
+
         # Set master window conditions
         self.master = master
         if self.is_editing:
@@ -23,7 +23,7 @@ class PasswordViewerGUI:
 
         # Set up the fields
         self.setup_fields()
-        
+
         # If editing, populate fields with existing data
         if self.is_editing:
             self.populate_fields()
@@ -57,9 +57,14 @@ class PasswordViewerGUI:
         # Show/Hide Password button
         self.password_visible = False
         self.show_password_button = tk.Button(
-            self.master, text="Show Password", bg="white", command=self.toggle_password_visibility
+            self.master,
+            text="Show Password",
+            bg="white",
+            command=self.toggle_password_visibility,
         )
-        self.show_password_button.grid(row=3, column=1, sticky="w", padx=5, pady=(0, 2.5))
+        self.show_password_button.grid(
+            row=3, column=1, sticky="w", padx=5, pady=(0, 2.5)
+        )
 
         # Notes
         tk.Label(self.master, text="Notes:", bg="lightblue").grid(
@@ -90,7 +95,7 @@ class PasswordViewerGUI:
                 button_frame, text="Delete", bg="white", command=self.delete_clicked
             )
             self.delete_button.pack(side=tk.LEFT, padx=(2.5, 2.5))
-        
+
         # Cancel Button
         self.cancel_button = tk.Button(
             button_frame, text="Cancel", bg="white", command=self.cancel_clicked
@@ -107,12 +112,12 @@ class PasswordViewerGUI:
         try:
             # Get data for this entry
             data = encryption.read_data_by_ID(self.pin, self.entry_id)
-            
+
             # Fill in the fields
             self.service_entry.insert(0, data[0])  # Service name
             self.username_entry.insert(0, data[1])  # Username
             self.password_entry.insert(0, data[2])  # Password
-            
+
             # Try to get notes if they exist
             try:
                 services, info = encryption.read_services(self.pin)
@@ -128,16 +133,16 @@ class PasswordViewerGUI:
         # Verify PIN again before showing password
         if not self.password_visible:
             pin_dialog = tk.simpledialog.askstring(
-                "PIN Required", 
-                "Please enter your PIN to view password:", 
-                show='*',
-                parent=self.master
+                "PIN Required",
+                "Please enter your PIN to view password:",
+                show="*",
+                parent=self.master,
             )
-            
+
             if not pin_dialog or pin_dialog != self.pin:
                 mb.showerror("Error", "Incorrect PIN")
                 return
-                
+
         # Toggle visibility
         if self.password_visible:
             self.password_entry.config(show="•")
@@ -164,19 +169,21 @@ class PasswordViewerGUI:
                 service = self.service_entry.get()
                 username = self.username_entry.get()
                 password = self.password_entry.get()
-                notes = self.notes_text.get("1.0", "end-1c")  # Get text without the final newline
-                
+                notes = self.notes_text.get(
+                    "1.0", "end-1c"
+                )  # Get text without the final newline
+
                 if self.is_editing:
                     # For editing, we need to remove the old entry and add the new one
                     encryption.remove_service(self.pin, self.entry_id)
-                
+
                 # Add the new or updated entry
                 encryption.add_service(self.pin, service, username, password, notes)
-                
+
                 # Call the refresh callback if provided
                 if self.refresh_callback:
                     self.refresh_callback()
-                
+
                 self.master.destroy()
             except Exception as e:
                 mb.showerror("Error", f"Failed to save password: {e}")
@@ -186,28 +193,27 @@ class PasswordViewerGUI:
         if self.is_editing:
             # Verify PIN again before deleting
             pin_dialog = tk.simpledialog.askstring(
-                "PIN Required", 
-                "Please enter your PIN to delete this entry:", 
-                show='*',
-                parent=self.master
+                "PIN Required",
+                "Please enter your PIN to delete this entry:",
+                show="*",
+                parent=self.master,
             )
-            
+
             if not pin_dialog or pin_dialog != self.pin:
                 mb.showerror("Error", "Incorrect PIN")
                 return
-                
+
             confirm = mb.askyesno(
-                "Confirm Delete",
-                "Are you sure you want to delete this password entry?"
+                "Confirm Delete", "Are you sure you want to delete this password entry?"
             )
             if confirm:
                 try:
                     encryption.remove_service(self.pin, self.entry_id)
-                    
+
                     # Call the refresh callback if provided
                     if self.refresh_callback:
                         self.refresh_callback()
-                    
+
                     self.master.destroy()
                 except Exception as e:
                     mb.showerror("Error", f"Failed to delete password: {e}")
@@ -221,6 +227,7 @@ class PasswordViewerGUI:
 def create_gui(master, pin, entry_id=None, refresh_callback=None):
     # Need to import here to avoid circular imports
     import tkinter.simpledialog
+
     password_viewer = PasswordViewerGUI(master, pin, entry_id, refresh_callback)
     return password_viewer  # Return the GUI instance
 
