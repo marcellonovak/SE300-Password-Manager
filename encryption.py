@@ -277,3 +277,21 @@ def read_data_by_ID(password, id):
             .decode("utf-8"),
         ]
         return dat_ent
+
+def change_password(pass_old, pass_new):
+    """ 
+    Changes the password used for encryption and authorization
+    Params:
+        pass_old: the old / current password used for encryption
+        pass_new: the desired new password
+    Returns:
+        Void
+        
+"""
+    data = []
+    servs, info = read_services(pass_old)
+    for i in range(len(servs)):
+        data.append(read_data_by_ID(pass_old,i))
+    gen_file(pass_new)
+    for i in range(len(servs)):
+        add_service(pass_new,servs[i],data[i][1],data[i][2],info[i])
