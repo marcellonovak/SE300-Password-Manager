@@ -6,7 +6,12 @@ import encryption
 # Default PIN - will be checked against the file
 PIN = "1111"
 
-
+# Todo: 
+# change the pin actually
+# sort the list by service name alphabetically
+# remove the ID column (just for debugging)
+# remove the refresh button
+# when changing the save path for the passwords, actually move it (delete old one!!)
 
 class PasswordManagerGUI:
     def __init__(self, master):
