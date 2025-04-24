@@ -54,7 +54,7 @@ def add_service(password,service,serv_name,serv_pass,info='\n'):
         service: name of the service, or custon title of entry
         serv_name: the username to be used for login
         serv_pass: the password used for login on this specific service
-        info: a short blurb to be viewd with the service name\
+        info: a short blurb to be viewed with the service name\
             Optional, default: "\n"
 
     Returns:

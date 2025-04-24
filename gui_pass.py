@@ -1,10 +1,10 @@
 import tkinter as tk
+import gui_main
 from tkinter import messagebox as mb
 
 
 class PasswordViewerGUI:
     def __init__(self, master):
-
         # Set master window conditions
         self.master = master
         master.title("Password Viewer")
@@ -76,6 +76,9 @@ class PasswordViewerGUI:
                 fields.append(self.custom_name_entry.get())
                 fields.append(self.notes_text.get("1.0", "end"))
                 print(fields)
+                # gui_main.encryption.add_service(
+                #    gui_main.PIN, fields[1], fields[0], fields[2], fields[4]
+                # )
                 self.master.destroy()
 
         def DeleteClicked():

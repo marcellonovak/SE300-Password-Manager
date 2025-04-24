@@ -1,4 +1,5 @@
 import tkinter as tk
+import gui_main
 
 
 class SettingsGUI:
@@ -20,7 +21,8 @@ class SettingsGUI:
             print("Change PIN!")
 
         def DeleteAllClicked():
-            # TODO JN
+            # file = open("passwords", "w")
+            # file.close()
             print("Delete All")
 
         ###############
