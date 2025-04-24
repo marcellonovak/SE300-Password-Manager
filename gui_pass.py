@@ -76,9 +76,10 @@ class PasswordViewerGUI:
                 fields.append(self.custom_name_entry.get())
                 fields.append(self.notes_text.get("1.0", "end"))
                 print(fields)
-                # gui_main.encryption.add_service(
-                #    gui_main.PIN, fields[1], fields[0], fields[2], fields[4]
-                # )
+                # TODO: Add custom name to beginning of notes or \n
+                gui_main.encryption.add_service(
+                    gui_main.PIN, fields[1], fields[0], fields[2], fields[4]
+                )
                 self.master.destroy()
 
         def DeleteClicked():

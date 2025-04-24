@@ -1,14 +1,13 @@
 import tkinter as tk
 import gui_pass, gui_settings
+import encryption
 
-# import encryption
-
-PIN = 1111
+PIN = "1111"
 
 
 class PasswordManagerGUI:
     def __init__(self, master):
-        # encryption.gen_file(PIN)
+        # TODO Genfile
 
         # Set master window conditions
         self.master = master
