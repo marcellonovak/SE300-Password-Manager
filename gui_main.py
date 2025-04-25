@@ -6,12 +6,13 @@ import encryption
 # Default PIN - will be checked against the file
 PIN = "1111"
 
-# Todo: 
+# Todo:
 # change the pin actually
 # sort the list by service name alphabetically
 # remove the ID column (just for debugging)
 # remove the refresh button
 # when changing the save path for the passwords, actually move it (delete old one!!)
+
 
 class PasswordManagerGUI:
     def __init__(self, master):
@@ -40,7 +41,12 @@ class PasswordManagerGUI:
             if entered_pin:
                 # Create and open password viewer window for a new entry
                 password_viewer_window = tk.Toplevel(self.master)
-                gui_pass.create_gui(password_viewer_window, entered_pin, None, self.refresh_password_list)
+                gui_pass.create_gui(
+                    password_viewer_window,
+                    entered_pin,
+                    None,
+                    self.refresh_password_list,
+                )
 
         def SettingsClicked():
             # Verify PIN before opening settings
@@ -48,20 +54,27 @@ class PasswordManagerGUI:
             if entered_pin:
                 # Create and open settings window
                 settings_window = tk.Toplevel(self.master)
-                gui_settings.create_gui(settings_window, entered_pin, self.refresh_password_list)
+                gui_settings.create_gui(
+                    settings_window, entered_pin, self.refresh_password_list
+                )
 
         def on_item_select(event):
             # Get the selected item
             selected_item = self.password_list.selection()
             if selected_item:  # If something is selected
                 item_id = int(self.password_list.item(selected_item[0], "values")[0])
-                
+
                 # Verify PIN before allowing to view/edit
                 entered_pin = self.verify_pin()
                 if entered_pin:
                     # Open the password viewer with the selected entry
                     password_viewer_window = tk.Toplevel(self.master)
-                    gui_pass.create_gui(password_viewer_window, entered_pin, item_id, self.refresh_password_list)
+                    gui_pass.create_gui(
+                        password_viewer_window,
+                        entered_pin,
+                        item_id,
+                        self.refresh_password_list,
+                    )
 
         ###############
         ### BUTTONS ###
@@ -94,45 +107,50 @@ class PasswordManagerGUI:
         ##################
 
         # Create a Treeview widget for the password list
-        self.password_list = ttk.Treeview(master, columns=("ID", "Service", "Notes"), show='headings')
+        self.password_list = ttk.Treeview(
+            master, columns=("ID", "Service", "Notes"), show="headings"
+        )
         self.password_list.heading("ID", text="ID")
         self.password_list.heading("Service", text="Service Name")
         self.password_list.heading("Notes", text="Notes")
-        
+
         # Configure column widths
         self.password_list.column("ID", width=30, anchor="center")
         self.password_list.column("Service", width=200)
         self.password_list.column("Notes", width=200)
-        
+
         # Bind selection event
         self.password_list.bind("<<TreeviewSelect>>", on_item_select)
-        
+
         # Add scrollbar
-        scrollbar = ttk.Scrollbar(master, orient="vertical", command=self.password_list.yview)
+        scrollbar = ttk.Scrollbar(
+            master, orient="vertical", command=self.password_list.yview
+        )
         self.password_list.configure(yscrollcommand=scrollbar.set)
-        
+
         # Pack the treeview and scrollbar
         self.password_list.pack(fill=tk.BOTH, expand=True, padx=5, pady=5, side=tk.LEFT)
         scrollbar.pack(fill=tk.Y, side=tk.RIGHT, padx=(0, 5), pady=5)
-        
+
         # Initial population of the password list
         self.refresh_password_list()
 
     def verify_pin(self):
         """Ask user for PIN and verify it"""
-        entered_pin = simpledialog.askstring("PIN Required", 
-                                          "Please enter your PIN:", 
-                                          show='*')
+        entered_pin = simpledialog.askstring(
+            "PIN Required", "Please enter your PIN:", show="*"
+        )
         if entered_pin:
             # Verify the PIN against the stored hash
             try:
                 with open("passwords", "r") as file:
                     stored_hash = file.readline().strip()
                     import base64, hashlib
+
                     entered_hash = base64.b64encode(
                         hashlib.sha512(entered_pin.encode("utf-8")).digest()
                     ).decode("utf-8")
-                    
+
                     if entered_hash == stored_hash:
                         return entered_pin
                     else:
@@ -140,7 +158,7 @@ class PasswordManagerGUI:
                         return None
             except Exception as e:
                 tk.messagebox.showerror("Error", f"Could not verify PIN: {e}")
-                return None
+                return False
         return None
 
     def refresh_password_list(self):
@@ -148,11 +166,11 @@ class PasswordManagerGUI:
         # Clear the current list
         for item in self.password_list.get_children():
             self.password_list.delete(item)
-        
+
         try:
             # Get the services and info from the password file
             services, info = encryption.read_services(PIN)
-            
+
             # Insert each service into the treeview
             for i, service in enumerate(services):
                 # Get the username for this service entry
