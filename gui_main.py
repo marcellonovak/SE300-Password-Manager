@@ -29,7 +29,7 @@ class PasswordManagerGUI:
         master.title("Password Manager")
         master.configure(bg="lightblue")
         master.iconbitmap("./icon_shield.ico")  # Set the icon
-        master.geometry("500x400")  # Increased size for better visibility
+        master.geometry("400x250")  # Increased size for better visibility
 
         ########################
         ### BUTTON FUNCTIONS ###
@@ -116,8 +116,8 @@ class PasswordManagerGUI:
 
         # Configure column widths
         self.password_list.column("ID", width=30, anchor="center")
-        self.password_list.column("Service", width=200)
-        self.password_list.column("Notes", width=200)
+        self.password_list.column("Service", width=135)
+        self.password_list.column("Notes", width=135)
 
         # Bind selection event
         self.password_list.bind("<<TreeviewSelect>>", on_item_select)

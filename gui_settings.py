@@ -15,7 +15,7 @@ class SettingsGUI:
         master.title("Manager Settings")
         master.configure(bg="lightblue")
         master.iconbitmap("./icon_shield.ico")  # Set the icon
-        master.geometry("300x150")  # Adjusted size
+        master.geometry("300x100")  # Adjusted size
 
         ########################
         ### BUTTON FUNCTIONS ###
@@ -113,7 +113,7 @@ class SettingsGUI:
 
         # Delete All Button
         delete_all_button = tk.Button(
-            button_frame, text="Delete All", bg="white", command=DeleteAllClicked
+            button_frame, text="Delete All Passwords", bg="white", command=DeleteAllClicked
         )
         delete_all_button.pack(side=tk.LEFT, padx=(2.5, 2.5))
 
